@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.bundle.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
+    <title>@ViewBag.Title</title>
+</head>
+<body class="d-flex flex-column min-vh-100">
+    @if (IsSectionDefined("HomeTitle"))
+    {
+        @RenderSection("HomeTitle", required: false)
+    }
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <span class="bi bi-house"></span>
+            </a>
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#collapseNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapseNavbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Singleplayer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Multiplayer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Rules</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="btn btn-outline-info nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
+                            Nome Utente <span class="bi bi-person"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-header">Nome Utente</li>
+                            <li><a class="dropdown-item" href="#">Your Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div>
+        @RenderBody()
+    </div>
+
+    <footer class="bg-dark text-center text-white mt-auto">
+        <div class="container p-4 pb-0">
+            <section class="mb-4">
+                <a class="btn btn-outline-light btn-floating m-1 rounded-circle" href="#!" role="button">
+                    <i class="bi bi-facebook"></i>
+                </a>
+                <a class="btn btn-outline-light btn-floating m-1 rounded-circle" href="#!" role="button">
+                    <i class="bi bi-twitter"></i>
+                </a>
+                <a class="btn btn-outline-light btn-floating m-1 rounded-circle" href="#!" role="button">
+                    <i class="bi bi-google"></i>
+                </a>
+                <a class="btn btn-outline-light btn-floating m-1 rounded-circle" href="#!" role="button">
+                    <i class="bi bi-linkedin"></i>
+                </a>
+                <a class="btn btn-outline-light btn-floating m-1 rounded-circle" href="#!" role="button">
+                    <i class="bi bi-github"></i>
+                </a>
+            </section>
+        </div>
+
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+            <b>© 2021 Copyright: </b>
+            <a class="text-white" href="#">simone.com</a>
+            <span>&nbsp | &nbsp</span>
+            <b> About: </b>
+            <a class="text-white" href="#">Info about the project</a>
+        </div>
+    </footer>
+</body>
+</html>

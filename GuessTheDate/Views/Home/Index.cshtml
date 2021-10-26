@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Home-Page";
+}
+
+@section HomeTitle{
+    <div class="container-fluid bg-info text-white text-center p-5">
+        <h1 class="display-5">Guess The Date</h1>
+        <p>Aim of the game is trying to guess or at least get closer as you can to the date of a given event.</p>
+        <p>For more informations about the rules <a href="#">Click Here</a>.</p>
+        <p>You can play without registration, but you won't see your level and your current XP points.</p>
+    </div>
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-sm-6 card">
+            <div class="card-header text-center">
+                <h3 class="card-title">Access</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h5>Login:</h5>
+                        <form method="post" asp-controller="Account" asp-action="Login">
+                            
+                        </form>
+                    </div>
+                    <div class="col-sm-6">
+                        <h5>Login With:</h5>
+                        <form method="post" asp-controller="Account" asp-action="ExternalLogin">
+                            <section class="mb-4">
+                                <button class="btn btn-outline-dark btn-floating m-1 rounded-circle" href="#!" role="button">
+                                    <i class="bi bi-facebook"></i>
+                                </button>
+                                <button class="btn btn-outline-dark btn-floating m-1 rounded-circle" href="#!" role="button">
+                                    <i class="bi bi-twitter"></i>
+                                </button>
+                                <button class="btn btn-outline-dark btn-floating m-1 rounded-circle" href="#!" role="button">
+                                    <i class="bi bi-google"></i>
+                                </button>
+                            </section>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <hr />
+                        <h5>Registration:</h5>
+                        <form method="post" asp-controller="Account" asp-action="Registration">
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 card">
+            <div class="card-header text-center">
+                <h3 class="card-title">Play</h3>
+            </div>
+            <div class="card-body">
+                <form method="get">
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class=" btn btn-info btn-lg text-white"><b>Start!</b></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

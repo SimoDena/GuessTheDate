@@ -1,0 +1,30 @@
+﻿@model AnswerViewModel
+
+@{ 
+    ViewBag.Title = "Answer";
+    var percenutale = Model.Points * 10;
+}
+
+<div class="container bg-info text-white text-center p-5 mt-5">
+    <h1 class="display-6">Event:</h1>
+    <p>@Model.Event</p>
+    <h2 class="mt-5">Occurred in: @Model.EventYear</h2>
+    <h2 class="mt-5">You Answered: @Model.Answer</h2>
+
+    <div>
+        @if (Model.YearMissed != 0)
+        {
+            <p>You were <b>@Model.YearMissed</b> years wrong.</p>
+        }
+        else
+        {
+            <p>Good Job! You've earned the maximum points.</p>
+        }
+    </div>
+
+    <h2 class="mt-5">Earned Points:</h2>
+    <div class="progress">
+        <div class="progress-bar progress-bar-animated progress-bar-striped bg-success" style="width:@percenutale%">@Model.Points</div>
+    </div>
+
+</div>

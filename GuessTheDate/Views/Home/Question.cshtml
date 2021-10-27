@@ -1,0 +1,25 @@
+﻿@model Quiz
+
+@{ 
+    ViewBag.Title = "Guess-The-Date";
+}
+
+<div class="container bg-info text-white text-center p-5 mt-5">
+    <h1 class="display-6">Try to guess when...</h1>
+    <p class="mt-5">@Model.Event</p>
+    <form method="post">
+        <div class="mt-5 mb-5">
+            <label asp-for="Answer" class="form-label"></label>
+            <input type="text" asp-for="Answer" class="form-control"/>
+            <span asp-validation-for="Answer"></span>
+
+            <input type="hidden" asp-for="EventYear"/>
+            <input type="hidden" asp-for="Event" />
+        </div>
+
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary btn-lg text-white"><b>Submit</b></button>
+        </div>
+        <div asp-validation-summary="All"></div>
+    </form>
+</div>

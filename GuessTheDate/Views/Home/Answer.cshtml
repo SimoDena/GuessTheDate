@@ -1,8 +1,12 @@
 ﻿@model AnswerViewModel
 
-@{ 
+@{
     ViewBag.Title = "Answer";
     var percenutale = Model.Points * 10;
+}
+
+@section SingleNavLink{
+    <a class="nav-link active" asp-action="Question">Singleplayer</a>
 }
 
 <div class="container bg-info text-white text-center p-5 mt-5">

@@ -28,8 +28,9 @@ namespace GuessTheDate.Models
         {
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
-            string beginDate = "19450000";
-            string endDate = "19501231";
+            string endDate;
+            string beginDate = RandomDate(new DateTime(0001, 1, 1), new DateTime(2013, 1, 1), out endDate);
+
             string url = $@"https://www.vizgr.org/historical-events/search.php?begin_date={beginDate}&end_date={endDate}";
             HttpResponseMessage response = await client.GetAsync(url);
 
@@ -37,23 +38,38 @@ namespace GuessTheDate.Models
             {
                 string responseString = await response.Content.ReadAsStringAsync();
 
-                XmlSerializer serializer = new XmlSerializer(typeof(List<Event>), new XmlRootAttribute("result"));
-                StringReader stringReader = new StringReader(responseString);
-                List<Event> events = (List<Event>)serializer.Deserialize(stringReader);
-
-                string[] date = events[0].Date.Split('/');
-                Quiz quiz = new Quiz()
+                if (responseString != "No events found for this query.")
                 {
-                    Event = events[0].Description,
-                    EventYear = Convert.ToInt32(date[0])
-                };
+                    XmlSerializer serializer = new XmlSerializer(typeof(List<Event>), new XmlRootAttribute("result"));
+                    StringReader stringReader = new StringReader(responseString);
+                    List<Event> events = (List<Event>)serializer.Deserialize(stringReader);
 
-                return quiz;
+                    string[] date = events[0].Date.Split('/');
+                    Quiz quiz = new Quiz()
+                    {
+                        Event = events[0].Description,
+                        EventYear = Convert.ToInt32(date[0])
+                    };
+
+                    return quiz;
+                }
+
+                return null;
             }
             else
             {
                 return null;
             }
+        }
+
+        private string RandomDate(DateTime start, DateTime finish, out string endDate)
+        {
+            Random rnd = new Random();
+            int range = (finish - start).Days;
+            DateTime randomDate = start.AddDays(rnd.Next(range));
+
+            endDate = randomDate.AddDays(600).ToString("yyyyMMdd");
+            return randomDate.ToString("yyyyMMdd");
         }
     }
 }

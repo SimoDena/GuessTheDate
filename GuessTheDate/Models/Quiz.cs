@@ -14,6 +14,7 @@ namespace GuessTheDate.Models
 
         [Display(Name ="Year of the event:")]
         [Required(ErrorMessage = "Try to guess the date of the above event.")]
+        [Range(0, 2013, ErrorMessage = "Insert a year between 0 and 2013.")]
         public int Answer { get; set; }
     }
 }

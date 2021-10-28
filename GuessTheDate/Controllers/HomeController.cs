@@ -32,51 +32,56 @@ namespace GuessTheDate.Controllers
             }
             else
             {
-                return RedirectToAction(); //Pagina di errore ancora da implementare: Nessun quiz trovato per i parametri inseriti.
+                return View("Error"); //Pagina di errore ancora da implementare: Nessun quiz trovato per i parametri inseriti.
             }
         }
 
         [HttpPost]
         public ViewResult Question(Quiz model)
         {
-            int yearMissed = model.Answer - model.EventYear;
-            if (yearMissed < 0)
+            if (ModelState.IsValid)
             {
-                yearMissed = yearMissed * (-1);
+                int yearMissed = model.Answer - model.EventYear;
+                if (yearMissed < 0)
+                {
+                    yearMissed = yearMissed * (-1);
+                }
+
+                int points = 0;
+                if (yearMissed == 0)
+                {
+                    points = 10;
+                }
+                else if (yearMissed == 1)
+                {
+                    points = 5;
+                }
+                else if (yearMissed < 5)
+                {
+                    points = 4;
+                }
+                else if (yearMissed < 10)
+                {
+                    points = 3;
+                }
+                else if (yearMissed < 20)
+                {
+                    points = 1;
+                }
+
+                AnswerViewModel answer = new AnswerViewModel()
+                {
+                    Points = points,
+                    YearMissed = yearMissed,
+                    Event = model.Event,
+                    EventYear = model.EventYear,
+                    Answer = model.Answer
+                };
+
+                return View("Answer", answer);
             }
 
-            int points = 0;
-            if (yearMissed == 0)
-            {
-                points = 10;
-            }
-            else if (yearMissed == 1)
-            {
-                points = 5;
-            }
-            else if (yearMissed < 5)
-            {
-                points = 4;
-            }
-            else if (yearMissed < 10)
-            {
-                points = 3;
-            }
-            else if (yearMissed < 20)
-            {
-                points = 1;
-            }
-
-            AnswerViewModel answer = new AnswerViewModel()
-            {
-                Points = points,
-                YearMissed = yearMissed,
-                Event = model.Event,
-                EventYear = model.EventYear,
-                Answer = model.Answer
-            };
-
-            return View("Answer", answer);
+            return View(model);
         }
     }
 }

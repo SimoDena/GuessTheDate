@@ -88,5 +88,15 @@ namespace GuessTheDate.Controllers
 
             return View(model);
         }
+
+        public ViewResult Rules()
+        {
+            return View();
+        }
+
+        public ViewResult About()
+        {
+            return View();
+        }
     }
 }

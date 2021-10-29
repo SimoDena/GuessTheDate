@@ -1,0 +1,17 @@
+﻿@{ 
+    ViewBag.Title = "Not-Found";
+}
+
+<div class="container mt-5">
+    <div class="card danger text-center">
+        <div class="card-header">
+            <h1 class="card-title text-danger">Resource not Found</h1>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-danger">
+                <p>@ViewBag.ErrorMessage</p>
+                <p>Click <a asp-controller="Home" asp-action="Index">Here</a> for the Home Page.</p>
+            </div>
+        </div>
+    </div>
+</div>

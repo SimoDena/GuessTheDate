@@ -36,7 +36,9 @@ namespace GuessTheDate.Controllers
             }
             else
             {
-                return View("Error"); //Pagina di errore ancora da implementare: Nessun quiz trovato per i parametri inseriti.
+                ViewBag.ErrorMessage = "No event found for the time interval selected, try to select a different interval of time.\n" +
+                    "If youre playing with random events just start a new quiz.";
+                return View("NotFound");
             }
         }
 

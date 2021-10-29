@@ -19,6 +19,7 @@ namespace GuessTheDate
             services.AddMvc();
 
             services.AddScoped<IQuizRepository, QuizRepository>();
+            services.AddSingleton<DataProtectionPorposeString>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

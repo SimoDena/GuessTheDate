@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,7 +11,8 @@ namespace GuessTheDate.Models
     {
         public string Event { get; set; }
 
-        public int EventYear { get; set; }
+        [NotMapped]
+        public string EventYear { get; set; }
 
         [Display(Name ="Year of the event:")]
         [Required(ErrorMessage = "Try to guess the date of the above event.")]

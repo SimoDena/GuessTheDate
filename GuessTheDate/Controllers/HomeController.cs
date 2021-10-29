@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GuessTheDate.Models;
 using GuessTheDate.ViewModels;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GuessTheDate.Controllers
@@ -11,10 +12,12 @@ namespace GuessTheDate.Controllers
     public class HomeController : Controller
     {
         private readonly IQuizRepository quizRepository;
+        private readonly IDataProtector protector;
 
-        public HomeController(IQuizRepository quizRepository)
+        public HomeController(IQuizRepository quizRepository, IDataProtectionProvider dataProtectionProvider, DataProtectionPorposeString dataProtectionPorposeString)
         {
             this.quizRepository = quizRepository;
+            this.protector = dataProtectionProvider.CreateProtector(dataProtectionPorposeString.answerValue);
         }
 
         public IActionResult Index()
@@ -28,6 +31,7 @@ namespace GuessTheDate.Controllers
             Quiz quiz = quizRepository.GetRandomQuiz();
             if (quiz.Event != "No event Found!")
             {
+                quiz.EventYear = protector.Protect(quiz.EventYear);
                 return View(quiz);
             }
             else
@@ -41,7 +45,8 @@ namespace GuessTheDate.Controllers
         {
             if (ModelState.IsValid)
             {
-                int yearMissed = model.Answer - model.EventYear;
+                int eventYearDecrypted = Convert.ToInt32(protector.Unprotect(model.EventYear));
+                int yearMissed = model.Answer - eventYearDecrypted;
                 if (yearMissed < 0)
                 {
                     yearMissed = yearMissed * (-1);
@@ -74,7 +79,7 @@ namespace GuessTheDate.Controllers
                     Points = points,
                     YearMissed = yearMissed,
                     Event = model.Event,
-                    EventYear = model.EventYear,
+                    EventYear = eventYearDecrypted.ToString(),
                     Answer = model.Answer
                 };
 

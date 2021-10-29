@@ -20,7 +20,7 @@ namespace GuessTheDate.Models
             }
             else
             {
-                return new Quiz() { Event = "No event Found!", EventYear = DateTime.Now.Year };
+                return new Quiz() { Event = "No event Found!", EventYear = DateTime.Now.Year.ToString() };
             }
         }
 
@@ -48,7 +48,7 @@ namespace GuessTheDate.Models
                     Quiz quiz = new Quiz()
                     {
                         Event = events[0].Description,
-                        EventYear = Convert.ToInt32(date[0])
+                        EventYear = Convert.ToString(date[0])
                     };
 
                     return quiz;

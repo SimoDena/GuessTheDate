@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace GuessTheDate
 {
@@ -26,6 +27,8 @@ namespace GuessTheDate
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContextPool<AppDbContext>(options => options.UseMySql(config.GetConnectionString("GtdateConnectionString")));
+
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
 
             services.AddMvc();
 
@@ -47,6 +50,7 @@ namespace GuessTheDate
             }
 
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute("default", "{controller=Home}/{action=Index}");

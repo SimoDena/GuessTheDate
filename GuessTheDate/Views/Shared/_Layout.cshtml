@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using  Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> signInmanager
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -31,7 +34,7 @@
                         }
                         else
                         {
-                            <a class="nav-link" asp-action="Question">Singleplayer</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="Question">Singleplayer</a>
                         }
                     </li>
                     <li class="nav-item">
@@ -44,21 +47,34 @@
                         }
                         else
                         {
-                            <a class="nav-link" asp-action="Rules">Rules</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="Rules">Rules</a>
                         }
                     </li>
                 </ul>
 
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">
-                        <a class="btn btn-outline-info nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
-                            Nome Utente <span class="bi bi-person"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="dropdown-header">Nome Utente</li>
-                            <li><a class="dropdown-item" href="#">Your Profile</a></li>
-                            <li><a class="dropdown-item" href="#">Logout</a></li>
-                        </ul>
+                        @if (signInmanager.IsSignedIn(User))
+                        {
+                            <a class="btn btn-outline-info nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
+                                @User.Identity.Name <span class="bi bi-person"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-header">@User.Identity.Name</li>
+                                <li><a class="dropdown-item" href="#">Your Profile</a></li>
+                                <li><a class="dropdown-item" href="#">Logout</a></li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <a class="btn btn-outline-info nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
+                                Login/Register <span class="bi bi-person"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-controller="Account" asp-action="Login">Login</a></li>
+                                <li><a class="dropdown-item" asp-controller="Account" asp-action="Register">Register</a></li>
+                            </ul>
+                        }
                     </li>
                 </ul>
             </div>
@@ -95,7 +111,7 @@
             <a class="text-white" href="#">simone.com</a>
             <span>&nbsp | &nbsp</span>
             <b> About: </b>
-            <a class="text-white" asp-action="About">Info about the project</a>
+            <a class="text-white" asp-controller="Home" asp-action="About">Info about the project</a>
         </div>
     </footer>
 </body>

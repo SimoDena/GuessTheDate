@@ -54,27 +54,7 @@ namespace GuessTheDate.Controllers
                     yearMissed = yearMissed * (-1);
                 }
 
-                int points = 0;
-                if (yearMissed == 0)
-                {
-                    points = 10;
-                }
-                else if (yearMissed == 1)
-                {
-                    points = 5;
-                }
-                else if (yearMissed < 5)
-                {
-                    points = 4;
-                }
-                else if (yearMissed < 10)
-                {
-                    points = 3;
-                }
-                else if (yearMissed < 20)
-                {
-                    points = 1;
-                }
+                int points = CalculatePoints(yearMissed);              
 
                 AnswerViewModel answer = new AnswerViewModel()
                 {
@@ -89,6 +69,38 @@ namespace GuessTheDate.Controllers
             }
 
             return View(model);
+        }
+
+        public int CalculatePoints(int yearMissed)
+        {
+            if (yearMissed == 0)
+            {
+                return 10;
+            }
+            else if (yearMissed == 1)
+            {
+                return 5;
+            }
+            else if (yearMissed < 5)
+            {
+                return 4;
+            }
+            else if (yearMissed < 10)
+            {
+                return 3;
+            }
+            else if (yearMissed < 20)
+            {
+                return 2;
+            }
+            else if (yearMissed < 30)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         public ViewResult Rules()

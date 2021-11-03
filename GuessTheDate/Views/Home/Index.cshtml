@@ -1,4 +1,5 @@
-﻿@model LoginViewModel
+﻿@inject SignInManager<ApplicationUser> signInmanager
+@model LoginViewModel
 
 @{
     ViewBag.Title = "Home-Page";
@@ -16,62 +17,75 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-sm-6 card">
-            <div class="card-header text-center">
-                <h3 class="card-title">Access</h3>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <h5>Login:</h5>
-                        <form method="post" asp-controller="Account" asp-action="Login">
-                            <div class="mt-3 mb-3">
-                                <label asp-for="Email" class="form-label"></label>
-                                <input type="email" asp-for="Email" class="form-control form-control-sm" />
-                            </div>
-                            <div class="mb-3">
-                                <label asp-for="Password" class="form-label"></label>
-                                <input type="password" asp-for="Password" class="form-control form-control-sm" />
-                            </div>
-
-                            <div class="form-check">
-                                <input asp-for="RememberMe" class="form-check-input" />
-                                <label asp-for="RememberMe" class="form-check-label"></label>
-                            </div>
-
-                            <div asp-validation-summary="All" class="text-danger"></div>
-
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary btn mb-4 mb-sm-0">Login</button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="col-sm-6">
-                        <h5>Login With:</h5>
-                        <form method="post" asp-controller="Account" asp-action="ExternalLogin">
-                            <section class="mb-4 mt-4">
-                                <button class="btn btn-outline-dark btn-floating m-1 rounded-circle" href="#!" role="button">
-                                    <i class="bi bi-facebook"></i>
-                                </button>
-                                <button class="btn btn-outline-dark btn-floating m-1 rounded-circle" href="#!" role="button">
-                                    <i class="bi bi-twitter"></i>
-                                </button>
-                                <button class="btn btn-outline-dark btn-floating m-1 rounded-circle" href="#!" role="button">
-                                    <i class="bi bi-google"></i>
-                                </button>
-                            </section>
-                        </form>
-                    </div>
+            @if (!signInmanager.IsSignedIn(User))
+            {
+                <div class="card-header text-center">
+                    <h3 class="card-title">Access</h3>
                 </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <hr />
-                        <h5>Registration:</h5>
-                        <div class="d-grid gap-2">
-                            <a asp-controller="Account" asp-action="Register" class="btn btn-primary">Register</a>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h5>Login:</h5>
+                            <form method="post" asp-controller="Account" asp-action="Login">
+                                <div class="mt-3 mb-3">
+                                    <label asp-for="Email" class="form-label"></label>
+                                    <input type="email" asp-for="Email" class="form-control form-control-sm" />
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="Password" class="form-label"></label>
+                                    <input type="password" asp-for="Password" class="form-control form-control-sm" />
+                                </div>
+
+                                <div class="form-check">
+                                    <input asp-for="RememberMe" class="form-check-input" />
+                                    <label asp-for="RememberMe" class="form-check-label"></label>
+                                </div>
+
+                                <div asp-validation-summary="All" class="text-danger"></div>
+
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary btn mb-4 mb-sm-0">Login</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-sm-6">
+                            <h5>Login With:</h5>
+                            <form method="post" asp-controller="Account" asp-action="ExternalLogin">
+                                <section class="mb-4 mt-4">
+                                    <button class="btn btn-outline-dark btn-floating m-1 rounded-circle" href="#!" role="button">
+                                        <i class="bi bi-facebook"></i>
+                                    </button>
+                                    <button class="btn btn-outline-dark btn-floating m-1 rounded-circle" href="#!" role="button">
+                                        <i class="bi bi-twitter"></i>
+                                    </button>
+                                    <button class="btn btn-outline-dark btn-floating m-1 rounded-circle" href="#!" role="button">
+                                        <i class="bi bi-google"></i>
+                                    </button>
+                                </section>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <hr />
+                            <h5>Registration:</h5>
+                            <div class="d-grid gap-2">
+                                <a asp-controller="Account" asp-action="Register" class="btn btn-primary">Register</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            }
+            else
+            {
+                <div class="card-header text-center">
+                    <h3>@User.Identity.Name</h3>
+                </div>
+                <div class="card-body">
+
+                </div>
+            }
+
         </div>
 
         <div class="col-sm-6 card">

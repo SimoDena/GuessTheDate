@@ -10,5 +10,6 @@ namespace GuessTheDate.Models
     {
         public long ExPoints { get; set; }
         public int Level { get; set; }
+        public long PointsNextLevel { get; set; }
     }
 }

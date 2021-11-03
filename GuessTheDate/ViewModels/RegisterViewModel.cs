@@ -12,7 +12,8 @@ namespace GuessTheDate.ViewModels
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Username field is mandatory")]
+        [Required(ErrorMessage = "Username field is mandatory.")]
+        [MaxLength(12, ErrorMessage ="Maximum length for Username field is 12 chars.")]
         public string Username { get; set; }
 
         [Required]
@@ -20,7 +21,7 @@ namespace GuessTheDate.ViewModels
         public string Password { get; set; }
 
         [Required]
-        [Compare("Password", ErrorMessage ="The passwords doesn't match")]
+        [Compare("Password", ErrorMessage ="The passwords doesn't match.")]
         [DataType(DataType.Password)]
         [Display(Name ="Confirm Password")]
         public string ConfirmPassword { get; set; }

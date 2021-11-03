@@ -35,6 +35,9 @@ namespace GuessTheDate.Controllers
                 {
                     UserName = model.Username,
                     Email = model.Email,
+                    Level = 0,
+                    ExPoints = 0,
+                    PointsNextLevel = 10
                 };
 
                 var result = await userManager.CreateAsync(newUser, model.Password);
@@ -74,16 +77,19 @@ namespace GuessTheDate.Controllers
             if (ModelState.IsValid)
             {
                 var user = await userManager.FindByEmailAsync(model.Email);
-                var result = await signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, false);
-                if (result.Succeeded)
+                if (user != null)
                 {
-                    if (!string.IsNullOrEmpty(returnUrl))
+                    var result = await signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, false);
+                    if (result.Succeeded)
                     {
-                        return LocalRedirect(returnUrl);
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
+                        if (!string.IsNullOrEmpty(returnUrl))
+                        {
+                            return LocalRedirect(returnUrl);
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
                 }
 

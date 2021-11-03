@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using GuessTheDate.Models;
 using GuessTheDate.ViewModels;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GuessTheDate.Controllers
@@ -12,11 +13,14 @@ namespace GuessTheDate.Controllers
     public class HomeController : Controller
     {
         private readonly IQuizRepository quizRepository;
+        private readonly UserManager<ApplicationUser> userManager;
         private readonly IDataProtector protector;
 
-        public HomeController(IQuizRepository quizRepository, IDataProtectionProvider dataProtectionProvider, DataProtectionPorposeString dataProtectionPorposeString)
+        public HomeController(IQuizRepository quizRepository, IDataProtectionProvider dataProtectionProvider, 
+            DataProtectionPorposeString dataProtectionPorposeString, UserManager<ApplicationUser> userManager)
         {
             this.quizRepository = quizRepository;
+            this.userManager = userManager;
             this.protector = dataProtectionProvider.CreateProtector(dataProtectionPorposeString.answerValue);
         }
 
@@ -43,7 +47,7 @@ namespace GuessTheDate.Controllers
         }
 
         [HttpPost]
-        public ViewResult Question(Quiz model)
+        public async Task<ViewResult> Question(Quiz model)
         {
             if (ModelState.IsValid)
             {
@@ -64,6 +68,22 @@ namespace GuessTheDate.Controllers
                     EventYear = eventYearDecrypted.ToString(),
                     Answer = model.Answer
                 };
+
+                var user = await userManager.FindByNameAsync(User.Identity.Name);
+                long currentPoints = user.ExPoints + points;
+
+                if (currentPoints >= user.PointsNextLevel)
+                {
+                    user.ExPoints = currentPoints - user.PointsNextLevel;
+                    user.PointsNextLevel *= 2;
+                    user.Level++;
+                }
+                else
+                {
+                    user.ExPoints = currentPoints;
+                }
+
+                await userManager.UpdateAsync(user);
 
                 return View("Answer", answer);
             }
@@ -93,9 +113,9 @@ namespace GuessTheDate.Controllers
             {
                 return 2;
             }
-            else if (yearMissed < 30)
+            else if (yearMissed < 1000)
             {
-                return 1;
+                return 5;
             }
             else
             {

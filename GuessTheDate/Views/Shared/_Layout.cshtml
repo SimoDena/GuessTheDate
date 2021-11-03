@@ -1,4 +1,14 @@
 ﻿@inject SignInManager<ApplicationUser> signInmanager
+@inject UserManager<ApplicationUser> userManager
+
+@{ 
+    int userLevel = 0;
+    if (signInmanager.IsSignedIn(User))
+    {
+        var user = await userManager.FindByNameAsync(User.Identity.Name);
+        userLevel = user.Level;
+    }
+}
 
 <!DOCTYPE html>
 
@@ -59,10 +69,10 @@
                     <li class="nav-item dropdown">
                         @if (signInmanager.IsSignedIn(User))
                         {
-                            <a class="btn btn-outline-info nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
-                                @User.Identity.Name <span class="bi bi-person"></span>
+                            <a class="btn btn-outline-info nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" style="min-width:150px">
+                                @User.Identity.Name <span class="bi bi-person"></span> <span>Lv. @userLevel</span>
                             </a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu" style="width:100%">
                                 <li class="dropdown-header">@User.Identity.Name</li>
                                 <li><a class="dropdown-item" href="#">Your Profile</a></li>
                                 <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a></li>

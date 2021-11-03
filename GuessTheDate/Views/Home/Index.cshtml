@@ -1,8 +1,25 @@
 ﻿@inject SignInManager<ApplicationUser> signInmanager
+@inject UserManager<ApplicationUser> userManager
 @model LoginViewModel
 
 @{
     ViewBag.Title = "Home-Page";
+
+    int userLevel = 0;
+    string userEmail = "";
+    long percentageNextLevel = 0;
+    long userXp = 0;
+    long xpNextLevel = 0;
+    if (signInmanager.IsSignedIn(User))
+    {
+        var user = await userManager.FindByNameAsync(User.Identity.Name);
+        userLevel = user.Level;
+        userEmail = user.Email;
+
+        userXp = user.ExPoints;
+        xpNextLevel = user.PointsNextLevel;
+        percentageNextLevel = (userXp * 100) / xpNextLevel;
+    }
 }
 
 @section HomeTitle{
@@ -79,10 +96,22 @@
             else
             {
                 <div class="card-header text-center">
-                    <h3>@User.Identity.Name</h3>
+                    <h3>Welcome back @User.Identity.Name!</h3>
                 </div>
                 <div class="card-body">
-
+                    <div class="row">
+                        <div class="col-sm-2 text-end">
+                            Level @userLevel
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="progress h-100">
+                                <div class="progress-bar progress-bar-animated progress-bar-striped bg-success" style="width:@percentageNextLevel%"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            @userXp.ToString() / @xpNextLevel.ToString() XP
+                        </div>
+                    </div>
                 </div>
             }
 

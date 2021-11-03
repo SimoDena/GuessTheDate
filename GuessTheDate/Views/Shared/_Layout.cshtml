@@ -3,10 +3,12 @@
 
 @{ 
     int userLevel = 0;
+    string userEmail = "";
     if (signInmanager.IsSignedIn(User))
     {
         var user = await userManager.FindByNameAsync(User.Identity.Name);
         userLevel = user.Level;
+        userEmail = user.Email;
     }
 }
 
@@ -54,6 +56,9 @@
                         <a class="nav-link disabled" href="#">Multiplayer</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Ranking">Ranking</a>
+                    </li>
+                    <li class="nav-item">
                         @if (IsSectionDefined("RulesNavLink"))
                         {
                             @RenderSection("RulesNavLink", required: false);
@@ -73,7 +78,7 @@
                                 @User.Identity.Name <span class="bi bi-person"></span> <span>Lv. @userLevel</span>
                             </a>
                             <ul class="dropdown-menu" style="width:100%">
-                                <li class="dropdown-header">@User.Identity.Name</li>
+                                <li class="dropdown-header"><h6><b>@User.Identity.Name</b></h6><p>@userEmail</p></li>
                                 <li><a class="dropdown-item" href="#">Your Profile</a></li>
                                 <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a></li>
                             </ul>

@@ -28,7 +28,13 @@ namespace GuessTheDate
         {
             services.AddDbContextPool<AppDbContext>(options => options.UseMySql(config.GetConnectionString("GtdateConnectionString")));
 
-            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 5;
+                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequireNonAlphanumeric = false;
+            }
+            ).AddEntityFrameworkStores<AppDbContext>();
 
             services.AddMvc();
 

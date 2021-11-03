@@ -62,7 +62,7 @@
                             <ul class="dropdown-menu">
                                 <li class="dropdown-header">@User.Identity.Name</li>
                                 <li><a class="dropdown-item" href="#">Your Profile</a></li>
-                                <li><a class="dropdown-item" href="#">Logout</a></li>
+                                <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a></li>
                             </ul>
                         }
                         else

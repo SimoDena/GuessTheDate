@@ -16,8 +16,8 @@
                         <h6 class="card-title text-black">@role.Name</h6>
                     </div>
                     <div class="card-body">
-                        <button asp-action="EditRole" asp-route-id="@role.Id" class="btn btn-warning">Edit</button>
-                        <button asp-action="DeleteRole" class="btn btn-danger">Delete</button>
+                        <a asp-action="EditRole" asp-route-id="@role.Id" class="btn btn-warning">Edit</a>
+                        <a asp-action="DeleteRole" class="btn btn-danger">Delete</a>
                     </div>
                 </div>
             }

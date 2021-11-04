@@ -56,5 +56,61 @@ namespace GuessTheDate.Controllers
             var roles = roleManager.Roles;
             return View(roles);
         }
+
+        [HttpGet]
+        public async Task<ViewResult> EditRole(string id)
+        {
+            var role = await roleManager.FindByIdAsync(id);
+            if (role == null)
+            {
+                ViewBag.ErrorMessage = $"No user with id = {id} can be found.";
+                return View("NotFound");
+            }
+
+            var model = new EditRoleViewModel()
+            {
+                Id = id,
+                RoleName = role.Name
+            };
+
+            foreach (var user in userManager.Users)
+            {
+                if (await userManager.IsInRoleAsync(user, role.Name))
+                {
+                    model.Users.Add(user.UserName);
+                }
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditRole(EditRoleViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var role = await roleManager.FindByIdAsync(model.Id);
+                if (role == null)
+                {
+                    ViewBag.ErrorMessage = $"No user with id = {model.Id} can be found.";
+                    return View("NotFound");
+                }
+
+                role.Name = model.RoleName;
+
+                var result = await roleManager.UpdateAsync(role);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ListRoles");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+
+            return View(model);
+        }
     }
 }

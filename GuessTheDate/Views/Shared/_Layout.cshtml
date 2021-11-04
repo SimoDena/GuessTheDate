@@ -81,6 +81,12 @@
                                 <li class="dropdown-header"><h6><b>@User.Identity.Name</b></h6><p>@userEmail</p></li>
                                 <li><a class="dropdown-item" href="#">Your Profile</a></li>
                                 <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                                @if (User.IsInRole("Administrator"))
+                                {
+                                    <li class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-controller="Administration" asp-action="ListRoles">Manage Roles</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Administration" asp-action="ListUsers">Manage Users</a></li>
+                                }
                             </ul>
                         }
                         else

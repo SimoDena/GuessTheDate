@@ -1,5 +1,6 @@
 ﻿using GuessTheDate.Models;
 using GuessTheDate.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace GuessTheDate.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class AdministrationController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
@@ -185,6 +187,12 @@ namespace GuessTheDate.Controllers
             }
 
             return RedirectToAction("EditRole", new { Id = roleId });
+        }
+
+        public ViewResult ListUsers()
+        {
+            var users = userManager.Users;
+            return View(users);
         }
     }
 }

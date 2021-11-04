@@ -100,16 +100,13 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-2 text-end">
-                            Level @userLevel
-                        </div>
-                        <div class="col-sm-8">
-                            <div class="progress h-100">
-                                <div class="progress-bar progress-bar-animated progress-bar-striped bg-success" style="width:@percentageNextLevel%"></div>
+                        <div class="col-sm-12">
+                            <smal><em>Level @userLevel</em></smal>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-animated progress-bar-striped bg-success" style="width:@percentageNextLevel%">
+                                    @userXp.ToString() / @xpNextLevel.ToString() XP
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-2">
-                            @userXp.ToString() / @xpNextLevel.ToString() XP
                         </div>
                     </div>
                 </div>

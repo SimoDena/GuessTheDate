@@ -65,7 +65,7 @@ namespace GuessTheDate.Controllers
             var role = await roleManager.FindByIdAsync(id);
             if (role == null)
             {
-                ViewBag.ErrorMessage = $"No user with id = {id} can be found.";
+                ViewBag.ErrorMessage = $"No role with id = {id} can be found.";
                 return View("NotFound");
             }
 
@@ -94,7 +94,7 @@ namespace GuessTheDate.Controllers
                 var role = await roleManager.FindByIdAsync(model.Id);
                 if (role == null)
                 {
-                    ViewBag.ErrorMessage = $"No user with id = {model.Id} can be found.";
+                    ViewBag.ErrorMessage = $"No role with id = {model.Id} can be found.";
                     return View("NotFound");
                 }
 
@@ -115,6 +115,29 @@ namespace GuessTheDate.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> DeleteRole(string id)
+        {
+            var role = await roleManager.FindByIdAsync(id);
+            if (role == null)
+            {
+                ViewBag.ErrorMessage = $"No role with id = {id} can be found.";
+                return View("NotFound");
+            }
+
+            var result = await roleManager.DeleteAsync(role);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("ListRoles");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+
+            return View("ListRoles");
+        }
+
         [HttpGet]
         public async Task<IActionResult> EditUserInRole(string roleId)
         {
@@ -123,7 +146,7 @@ namespace GuessTheDate.Controllers
             var role = await roleManager.FindByIdAsync(roleId);
             if (role == null)
             {
-                ViewBag.ErrorMessage = $"No user with id = {roleId} can be found.";
+                ViewBag.ErrorMessage = $"No role with id = {roleId} can be found.";
                 return View("NotFound");
             }
 
@@ -157,7 +180,7 @@ namespace GuessTheDate.Controllers
             var role = await roleManager.FindByIdAsync(roleId);
             if (role == null)
             {
-                ViewBag.ErrorMessage = $"No user with id = {roleId} can be found.";
+                ViewBag.ErrorMessage = $"No role with id = {roleId} can be found.";
                 return View("NotFound");
             }
 
@@ -193,6 +216,29 @@ namespace GuessTheDate.Controllers
         {
             var users = userManager.Users;
             return View(users);
+        }
+
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"No user with id = {id} can be found.";
+                return View("NotFound");
+            }
+
+            var result = await userManager.DeleteAsync(user);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("ListUsers");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+
+            return View("ListUsers");
         }
     }
 }

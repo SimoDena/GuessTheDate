@@ -34,6 +34,7 @@
         <div class="mt-3 mb-3">
             <button type="submit" class="btn btn-success">Apply Changes</button>
             <a asp-action="EditRole" asp-route-id="@roleId" class="btn btn-danger">Cancel</a>
+            <div asp-validation-summary="All" class="text-danger"></div>
         </div>
     </form>
 </div>

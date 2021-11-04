@@ -5,7 +5,7 @@
 }
 
 <div class="container bg-info text-white text-center p-5 mt-5">
-    <h1 class="display-6">Roles</h1>
+    <h1 class="display-6">Users</h1>
     <div>
         @if (Model.Any())
         {
@@ -30,7 +30,14 @@
                                 <td>@user.Email</td>
                                 <td>@user.Level</td>
                                 <td><a class="btn btn-warning" asp-action="EditUser"><i class="bi bi-pen-fill"></i></a></td>
-                                <td><a class="btn btn-danger" asp-action="DeleteUser"><i class="bi bi-trash-fill"></i></a></td>
+                                <td>
+                                    <form method="post">
+                                        <button type="submit" class="btn btn-danger" asp-action="DeleteUser" asp-route-id="@user.Id"
+                                        onclick="return confirm('Deleting user @user.UserName?')">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                         }
                     </tbody>

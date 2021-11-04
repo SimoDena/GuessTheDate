@@ -44,7 +44,7 @@ namespace GuessTheDate.Controllers
 
                 if (result.Succeeded)
                 {
-                    if (signInManager.IsSignedIn(User) && User.IsInRole("Administration"))
+                    if (signInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
                     {
                         return RedirectToAction("ListUsers", "Administration");
                     }

@@ -240,5 +240,55 @@ namespace GuessTheDate.Controllers
 
             return View("ListUsers");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> EditUser(string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"No user with id = {id} can be found.";
+                return View("NotFound");
+            }
+
+            EditUserViewModel model = new EditUserViewModel()
+            {
+                Username = user.UserName,
+                Email = user.Email
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUser(EditUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByIdAsync(model.Id);
+                if (user == null)
+                {
+                    ViewBag.ErrorMessage = $"No user with id = {model.Id} can be found.";
+                    return View("NotFound");
+                }
+
+                user.UserName = model.Username;
+                user.Email = model.Email;
+
+                var result = await userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ListUsers");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+            }
+
+            return View(model);
+        }
     }
 }

@@ -40,7 +40,7 @@
                 }
             </div>
             <div class="card-footer">
-                <a asp-action="EditUsersInRole" class="btn btn-primary">Edit users in this role</a>
+                <a asp-action="EditUserInRole" asp-route-roleId="@Model.Id" class="btn btn-primary">Edit users in this role</a>
             </div>
         </div>
     </form>

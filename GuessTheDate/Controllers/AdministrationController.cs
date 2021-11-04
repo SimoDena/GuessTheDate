@@ -112,5 +112,79 @@ namespace GuessTheDate.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> EditUserInRole(string roleId)
+        {
+            ViewBag.RoleId = roleId;
+
+            var role = await roleManager.FindByIdAsync(roleId);
+            if (role == null)
+            {
+                ViewBag.ErrorMessage = $"No user with id = {roleId} can be found.";
+                return View("NotFound");
+            }
+
+            List<EditUserInRoleViewModel> model = new List<EditUserInRoleViewModel>();
+            foreach (var user in userManager.Users)
+            {
+                EditUserInRoleViewModel userInRole = new EditUserInRoleViewModel()
+                {
+                    UserId = user.Id,
+                    UserName = user.UserName
+                };
+
+                if (await userManager.IsInRoleAsync(user, role.Name))
+                {
+                    userInRole.IsSelected = true;
+                }
+                else
+                {
+                    userInRole.IsSelected = false;
+                }
+
+                model.Add(userInRole);
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUserInRole(List<EditUserInRoleViewModel> model, string roleId)
+        {
+            var role = await roleManager.FindByIdAsync(roleId);
+            if (role == null)
+            {
+                ViewBag.ErrorMessage = $"No user with id = {roleId} can be found.";
+                return View("NotFound");
+            }
+
+            foreach (var user in model)
+            {
+                var userInRole = await userManager.FindByIdAsync(user.UserId);
+
+                IdentityResult result = null;
+                if (user.IsSelected && !(await userManager.IsInRoleAsync(userInRole, role.Name)))
+                {
+                    result = await userManager.AddToRoleAsync(userInRole, role.Name);
+                }
+                else if (!user.IsSelected && (await userManager.IsInRoleAsync(userInRole, role.Name)))
+                {
+                    result = await userManager.RemoveFromRoleAsync(userInRole, role.Name);
+                }
+                else
+                {
+                    continue;
+                }
+
+                if (!result.Succeeded)
+                {
+                    ViewBag.ErrorMessage = "There have been problembs assigning roles to users. Contact the Administrator.";
+                    return View("NotFound");
+                }
+            }
+
+            return RedirectToAction("EditRole", new { Id = roleId });
+        }
     }
 }

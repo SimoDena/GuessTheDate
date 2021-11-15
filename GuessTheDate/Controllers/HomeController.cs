@@ -69,21 +69,24 @@ namespace GuessTheDate.Controllers
                     Answer = model.Answer
                 };
 
-                var user = await userManager.FindByNameAsync(User.Identity.Name);
-                long currentPoints = user.ExPoints + points;
-
-                if (currentPoints >= user.PointsNextLevel)
+                if (User.Identity.IsAuthenticated)
                 {
-                    user.ExPoints = currentPoints - user.PointsNextLevel;
-                    user.PointsNextLevel *= 2;
-                    user.Level++;
-                }
-                else
-                {
-                    user.ExPoints = currentPoints;
-                }
+                    var user = await userManager.FindByNameAsync(User.Identity.Name);
+                    long currentPoints = user.ExPoints + points;
 
-                await userManager.UpdateAsync(user);
+                    if (currentPoints >= user.PointsNextLevel)
+                    {
+                        user.ExPoints = currentPoints - user.PointsNextLevel;
+                        user.PointsNextLevel *= 2;
+                        user.Level++;
+                    }
+                    else
+                    {
+                        user.ExPoints = currentPoints;
+                    }
+
+                    await userManager.UpdateAsync(user);
+                }
 
                 return View("Answer", answer);
             }

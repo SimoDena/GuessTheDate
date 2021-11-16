@@ -38,6 +38,12 @@ namespace GuessTheDate
 
             services.AddMvc();
 
+            services.AddAuthentication().AddGoogle(options =>
+            {
+                options.ClientId = "1084418445158-07r2b2c83q46644oigulksoq56btpe6c.apps.googleusercontent.com";
+                options.ClientSecret = "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";
+            });
+
             services.AddScoped<IQuizRepository, QuizRepository>();
             services.AddSingleton<DataProtectionPorposeString>();
         }

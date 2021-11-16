@@ -4,32 +4,49 @@
     ViewBag.Title = "Login";
 }
 
-<div class="container mt-5 bg-info text-white card rounded-3">
+<div class="container card mt-5 bg-info text-white rounded-3">
     <div class="card-header rounded-3 text-center">
         <h1 class="display-6 card-title">Login</h1>
     </div>
-    <form method="post">
-        <div class="card-body">
-            <div class="mt-3 mb-3">
-                <label asp-for="Email" class="form-label"></label>
-                <input type="email" asp-for="Email" class="form-control" />
-            </div>
-            <div class="mb-3">
-                <label asp-for="Password" class="form-label"></label>
-                <input type="password" asp-for="Password" class="form-control" />
-            </div>
+    <div class="card-body row">
+        <div class=" col-sm-6">
+            <form method="post">
+                <div class="mt-3 mb-3">
+                    <label asp-for="Email" class="form-label"></label>
+                    <input type="email" asp-for="Email" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label"></label>
+                    <input type="password" asp-for="Password" class="form-control" />
+                </div>
 
-            <div class="form-check">
-                <input asp-for="RememberMe" class="form-check-input" />
-                <label asp-for="RememberMe" class="form-check-label"></label>
-            </div>
+                <div class="form-check">
+                    <input asp-for="RememberMe" class="form-check-input" />
+                    <label asp-for="RememberMe" class="form-check-label"></label>
+                </div>
 
-            <div asp-validation-summary="All" class="text-danger"></div>
-
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="card-footer rounded-3 text-center">
+                    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                </div>
+            </form>
         </div>
-        <div class="card-footer rounded-3 text-center">
-            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+        <div class="col-sm-6">
+            <h5>Login With:</h5>
+            <form method="post" asp-controller="Account" asp-action="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl">
+                <section class="mb-4 mt-3">
+                    <button type="submit" name="provider" value="Google" class="btn btn-outline-dark btn-floating m-1 rounded-circle" role="button">
+                        <i class="bi bi-google"></i>
+                    </button>
+                    <button type="submit" name="provider" value="Facebook" class="btn btn-outline-dark btn-floating m-1 rounded-circle" role="button">
+                        <i class="bi bi-facebook"></i>
+                    </button>
+                    <button type="submit" name="provider" value="Twitter" class="btn btn-outline-dark btn-floating m-1 rounded-circle" role="button">
+                        <i class="bi bi-twitter"></i>
+                    </button>
+                </section>
+            </form>
         </div>
-    </form>
+    </div>
 
 </div>

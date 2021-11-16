@@ -68,15 +68,15 @@
                         <div class="col-sm-6">
                             <h5>Login With:</h5>
                             <form method="post" asp-controller="Account" asp-action="ExternalLogin">
-                                <section class="mb-4 mt-4">
-                                    <button class="btn btn-outline-dark btn-floating m-1 rounded-circle" href="#!" role="button">
+                                <section class="mb-4 mt-3">
+                                    <button type="submit" name="provider" value="Google" class="btn btn-outline-dark btn-floating m-1 rounded-circle" role="button">
+                                        <i class="bi bi-google"></i>
+                                    </button>
+                                    <button type="submit" name="provider" value="Facebook" class="btn btn-outline-dark btn-floating m-1 rounded-circle" role="button">
                                         <i class="bi bi-facebook"></i>
                                     </button>
-                                    <button class="btn btn-outline-dark btn-floating m-1 rounded-circle" href="#!" role="button">
+                                    <button type="submit" name="provider" value="Twitter" class="btn btn-outline-dark btn-floating m-1 rounded-circle" role="button">
                                         <i class="bi bi-twitter"></i>
-                                    </button>
-                                    <button class="btn btn-outline-dark btn-floating m-1 rounded-circle" href="#!" role="button">
-                                        <i class="bi bi-google"></i>
                                     </button>
                                 </section>
                             </form>

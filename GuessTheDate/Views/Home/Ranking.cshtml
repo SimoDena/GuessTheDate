@@ -1,0 +1,46 @@
+﻿@model IEnumerable<ApplicationUser>
+
+@{ 
+    ViewBag.Title = "Ranking";
+}
+
+<div class="container bg-info text-white text-center p-5 mt-5">
+    <h1 class="display-6">Global Ranking</h1>
+    <div>
+        @if (Model.Any())
+        {
+            <div class="table-responsive mt-5">
+                <table class="table table-striped table-primary table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Level</th>
+                            <th>Experience</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model)
+                        {
+                            if (User.Identity.Name == user.UserName)
+                            {
+                                <tr class="table-success">
+                                    <td>@user.UserName</td>
+                                    <td>@user.Level</td>
+                                    <td>@user.ExPoints</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td>@user.UserName</td>
+                                    <td>@user.Level</td>
+                                    <td>@user.ExPoints</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

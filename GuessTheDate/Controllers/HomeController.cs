@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GuessTheDate.Models;
 using GuessTheDate.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -134,6 +135,14 @@ namespace GuessTheDate.Controllers
         public ViewResult About()
         {
             return View();
+        }
+
+        [Authorize]
+        public ViewResult Ranking()
+        {
+            var users = userManager.Users;
+            users = users.OrderByDescending(user => user.Level).ThenByDescending(user => user.ExPoints);
+            return View(users);
         }
     }
 }
